@@ -10,10 +10,8 @@
 #include <chrono>
 #include <thread>
 #include <MMSystem.h>
-//#include <json/value.h>
 #define MS_NO_COREDLL
 #include <iostream>
-#include <fstream>
 
 
 using namespace std;
@@ -42,34 +40,12 @@ int counter = 0;
 void singleLMB(POINT pos_cursor)
 {
 	mouse_event(MOUSEEVENTF_LEFTDOWN, pos_cursor.x, pos_cursor.y, 0, 0); \
-	PlaySound(TEXT("mouseclick.wav"), NULL, SND_FILENAME);
-	std::this_thread::sleep_for(std::chrono::milliseconds(200));
-	mouse_event(MOUSEEVENTF_LEFTUP, pos_cursor.x, pos_cursor.y, 0, 0);
-	
-}	
-
-void doubleLMB(POINT pos_cursor)
-{
-	mouse_event(MOUSEEVENTF_LEFTDOWN, pos_cursor.x, pos_cursor.y, 0, 0); \
-		PlaySound(TEXT("mouseclick.wav"), NULL, SND_FILENAME);
-	std::this_thread::sleep_for(std::chrono::milliseconds(200));
-	mouse_event(MOUSEEVENTF_LEFTUP, pos_cursor.x, pos_cursor.y, 0, 0);
-
-	mouse_event(MOUSEEVENTF_LEFTDOWN, pos_cursor.x, pos_cursor.y, 0, 0); \
 		PlaySound(TEXT("mouseclick.wav"), NULL, SND_FILENAME);
 	std::this_thread::sleep_for(std::chrono::milliseconds(200));
 	mouse_event(MOUSEEVENTF_LEFTUP, pos_cursor.x, pos_cursor.y, 0, 0);
 
 }
 
-
-
-void fileRead() {
-	std::string people;
-	std::ifstream people_file("peoples.json", std::ifstream::binary);
-	people_file >> people;
-	cout << people << std::endl;
-}
 
 cv::Vec3f getEyeball(cv::Mat &eye, std::vector<cv::Vec3f> &circles)
 {
@@ -134,7 +110,6 @@ cv::Rect getRightmostEye(std::vector<cv::Rect> &eyes)
 			rightmostIndex = i;
 		}
 	}
-	//rightEyeTL = eyes[rightmostIndex].tl;
 	return eyes[rightmostIndex];
 }
 
@@ -155,7 +130,7 @@ void detectEyes(cv::Mat &frame, cv::CascadeClassifier &faceCascade, cv::CascadeC
 	cv::Mat face = grayscale(faces[0]); // crop the face
 	std::vector<cv::Rect> eyes;
 	eyeCascade.detectMultiScale(face, eyes, 1.1, 2, 0 | CV_HAAR_SCALE_IMAGE, cv::Size(30, 30)); // same thing as above    
-	//rectangle(frame, faces[0].tl(), faces[0].br(), cv::Scalar(255, 0, 0), 2);
+																								//rectangle(frame, faces[0].tl(), faces[0].br(), cv::Scalar(255, 0, 0), 2);
 	if (eyes.size() != 2) {
 		POINT point;
 		iris = false;
@@ -206,8 +181,6 @@ void detectEyes(cv::Mat &frame, cv::CascadeClassifier &faceCascade, cv::CascadeC
 		centerEyeFinalR.y = centerIrisRight.y;
 		cv::circle(eyeRight, centerR, radius, cv::Scalar(255, 255, 255), 2);
 	}
-	cv::imshow("EyeL", eyeLeft);
-	cv::imshow("EyeR", eyeRight);
 
 }
 
@@ -230,9 +203,9 @@ void Calibrate()
 }
 
 void moveCursor(double x, double y) {
-		SetCursorPos(x, y);
+	SetCursorPos(x, y);
 }
-		
+
 double getCenterDiffX(cv::Point &centerEyeFinalR, cv::Point &centerEyeFinalL, cv::Point &rightEyeCalibFinal, cv::Point &leftEyeCalibFinal) {
 	int xdiffR = centerEyeFinalR.x - rightEyeCalibFinal.x;
 	int xdiffL = centerEyeFinalL.x - leftEyeCalibFinal.x;
@@ -255,30 +228,28 @@ double getCenterDiffY(cv::Point &centerEyeFinalR, cv::Point &centerEyeFinalL, cv
 
 int main()
 {
-	//BlockMouseMovement();
 	cv::CascadeClassifier faceCascade;
 	cv::CascadeClassifier eyeCascade;
 	faceCascade.load("haarcascade_frontalface_alt2.xml");
 	eyeCascade.load("haarcascade_eye.xml");
-	cv::VideoCapture cap(1); // the fist webcam connected to your PC
+	cv::VideoCapture cap(0); // the fist webcam connected to your PC
 	cv::Mat frame;
 	int prevavgxdiff = 0;
 	int prevavgydiff = 0;
 	int test = 0;
 	while (true)
 	{
-		fileRead();
 		cap >> frame; // outputs the webcam image to a Mat
-		//if (!frame.data) break;
+					  //if (!frame.data) break;
 		detectEyes(frame, faceCascade, eyeCascade);
 		if ((iris == false || firstClick == true) && calibration == true) {
 			counter++;
 			std::cout << counter << std::endl;
 			if (counter >= 15) {
 				if (firstClick == false) {
-				PlaySound(TEXT("mouseclick.wav"), NULL, SND_FILENAME);
-				firstClick = true;
-			}
+					PlaySound(TEXT("mouseclick.wav"), NULL, SND_FILENAME);
+					firstClick = true;
+				}
 				if (iris && counter <= 25) {
 					POINT point;
 					if (GetCursorPos(&point)) {
@@ -289,22 +260,7 @@ int main()
 					counter = 0;
 					firstClick = false;
 				}
-				if (counter > 25) {
-					PlaySound(TEXT("mouseclick.wav"), NULL, SND_FILENAME);
-					std::this_thread::sleep_for(std::chrono::milliseconds(250));
-					PlaySound(TEXT("mouseclick.wav"), NULL, SND_FILENAME);
-				}
-				if (counter > 25 && iris == true) {
-					POINT point;
-					if (GetCursorPos(&point)) {
-						std::cout << "Current X" << point.x << std::endl;
-						std::cout << "Current Y" << point.y << std::endl;
-					}
-					doubleLMB(point);
-					counter = 0;
-					firstClick = false;
-				}
-				
+
 			}
 		}
 		else {
@@ -313,8 +269,6 @@ int main()
 		if (test != 0) {
 			int avgxdiff = getCenterDiffX(centerEyeFinalR, centerEyeFinalL, rightEyeCalibFinal, leftEyeCalibFinal);
 			int avgydiff = getCenterDiffY(centerEyeFinalR, centerEyeFinalL, rightEyeCalibFinal, leftEyeCalibFinal);
-			//std::cout << "X Rate :" << avgxdiff << std::endl;
-			//std::cout << "Y Rate :" << avgydiff << std::endl;
 			if (abs(avgxdiff) <= 10) {
 
 			}
@@ -339,7 +293,7 @@ int main()
 			cv::circle(frame, leftEyeCalibFinal, 10, cv::Scalar(255, 255, 255), 2);
 		}
 
-		
+
 		cv::imshow("Webcam", frame); // displays the Mat
 		if (cv::waitKey(30) == 'k') {
 			std::cout << "Calibrated" << std::endl;
@@ -351,7 +305,7 @@ int main()
 			break;
 		}
 
-		
+
 	}
 	return 0;
 }
