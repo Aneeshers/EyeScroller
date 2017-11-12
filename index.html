@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Requirements</title>
+</head>
+<body>
+<h1>Requirements</h1>
+<p>Type in a sensitive between 1-10?</p>
+<input type="text" id="myText" value="1-10">
+<button onclick="myFunction()">submit</button>
+<p id="DEMO"></p>
+<button onclick="MyFunction()">Start</button>
+<p id="Demo"></p>
+<button onclick="MYFunction()">Stop</button>
+<p id="demo"></p>
+<style>
+    body {
+        margin: 5px;
+        white-space: nowrap;
+        background: #008080;
+    }
+
+    h1 {
+        font-size: 20px;
+        padding: 3px 0px 0px 1px;
+        color:white;
+    }
+
+    #container {
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+    }
+    p{
+        padding: 3px 0px 6px 1px;
+        color:white;
+    }
+    span{
+        padding: 3px 0px 6px 1px;
+        color:white;
+    }
+</style>
+</style>
+<script>
+function myFunction() {
+    var sens = document.getElementById("myText").value;
+if(sens < 1){
+    sens = 1;
+    document.getElementById("myText").innerHTML = sens;
+}
+else if(sens > 10){
+    sens = 10;
+    document.getElementById("myText").innerHTML = sens;
+}
+document.getElementById("myText").innerHTML = sens;
+// alert(sens);
+}
+function MyFunction() {
+    var x = "true";
+alert(x);
+chrome.runtime.sendMessage({greeting: "hello"}, function(response) {
+    console.log(response.farewell);
+});  alert(x)
+}
+function MYFunction() {
+    var x = "false";
+//alert(x);
+}
+</script>
+  </body>
+    </html>
+
+
+

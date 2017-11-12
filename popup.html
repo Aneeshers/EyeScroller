@@ -1,0 +1,163 @@
+<!doctype html>
+<!--
+ This page is shown when the extension button is clicked, because the
+ "browser_action" field in manifest.json contains the "default_popup" key with
+ value "popup.html".
+ -->
+<html>
+<head>
+  <title>"EyeScroller"</title>
+  <style type="text/css">
+    body {
+      margin: 5px;
+      white-space: nowrap;
+      background: #008080;
+    }
+
+    h1, h3 {
+      font-size: 20px;
+      padding: 3px 0px 0px 1px;
+      color:white;
+    }
+
+    #container {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+    }
+    p{
+      padding: 3px 0px 6px 1px;
+      color:white;
+    }
+    span{
+      padding: 3px 0px 6px 1px;
+      color:white;
+    }
+    #slidecontainer {
+      width: 100%; /* Width of the outside container */
+    }
+
+    /* The slider itself */
+    .slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 15px;
+      border-radius: 5px;
+      background: #d3d3d3;
+      outline: none;
+      opacity: 0.7;
+      -webkit-transition: .2s;
+      transition: opacity .2s;
+    }
+
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background: #4CAF50;
+      cursor: pointer;
+    }
+
+    .slider::-moz-range-thumb {
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background: #4CAF50;
+      cursor: pointer;
+    }
+    output {
+      position: absolute;
+      background-image: linear-gradient(top, #444444, #999999);
+      width: 40px;
+      height: 30px;
+      text-align: center;
+      color: white;
+      border-radius: 10px;
+      display: inline-block;
+      font: bold 15px/30px Georgia;
+      bottom: 175%;
+      left: 0;
+      margin-left: -1%;
+    }
+    output:after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-top: 10px solid #999999;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      margin-top: -1px;
+    }
+
+  </style>
+
+  <!--<script src="popup.js"></script>-->
+  <!--
+    - JavaScript and HTML must be in separate files: see our Content Security
+    - Policy documentation[1] for details and explanation.
+    -
+    - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
+  -->
+
+</head>
+
+<body>
+<h1>WebCam so cool</h1>
+<p>Control mouse with webcam</p>
+<p>Left/Right click controlled by blinking in right or left eye</p>
+<p>Blink both eyes for longer than a sec to activate double right click</p>
+<p>Look away for longer than a 10 sec and program stops</p>
+<button onclick="Function()">Start</button>
+<p id="Demo"></p>
+<button onclick="ffunction()">Stop</button>
+<p id="demo"></p>
+<a href="C:\Users\manju\Desktop\Webpage\index.html" target="Requirements">Requirements</a>
+<a href="https://www.google.com/" target="Google">Google</a>
+<!-- <div data-role="page">
+  <div data-role="header">
+    <h1>Slider Control</h1>
+  </div>
+ -->
+
+<!--<h4>Sensitive</h4>
+<select size="1" id="slt_sensitive" name="sensitive">
+<option value="">Select</option>
+<option value=18>high</option>
+<option value=17>medium</option>
+<option value=16>low</option>
+chrome.runtime.sendMessage({greeting: "hello"}, function(response) {
+  console.log(response.farewell);
+});
+</select>-->
+<script>
+    function Function() {
+        var x = "true";
+        //alert(x);
+        chrome.storage.local.get(null, function(items) { // null implies all items
+            // Convert object to a string.
+            var result = JSON.stringify(items);
+
+            // Save as file
+            var url = 'data:application/json;base64,' + btoa(result);
+            chrome.downloads.download({
+                url: url,
+                filename: 'filename_of_exported_file.txt'
+            });
+        });
+
+
+    };
+
+    function ffunction() {
+        var x = "false";
+        //alert(x);
+    }
+</script>
+</body>
+</html>
