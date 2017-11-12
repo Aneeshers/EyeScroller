@@ -10,10 +10,8 @@
 #include <chrono>
 #include <thread>
 #include <MMSystem.h>
-//#include <json/value.h>
 #define MS_NO_COREDLL
 #include <iostream>
-#include <fstream>
 
 
 using namespace std;
@@ -48,28 +46,6 @@ void singleLMB(POINT pos_cursor)
 
 }
 
-void doubleLMB(POINT pos_cursor)
-{
-	mouse_event(MOUSEEVENTF_LEFTDOWN, pos_cursor.x, pos_cursor.y, 0, 0); \
-		PlaySound(TEXT("mouseclick.wav"), NULL, SND_FILENAME);
-	std::this_thread::sleep_for(std::chrono::milliseconds(200));
-	mouse_event(MOUSEEVENTF_LEFTUP, pos_cursor.x, pos_cursor.y, 0, 0);
-
-	mouse_event(MOUSEEVENTF_LEFTDOWN, pos_cursor.x, pos_cursor.y, 0, 0); \
-		PlaySound(TEXT("mouseclick.wav"), NULL, SND_FILENAME);
-	std::this_thread::sleep_for(std::chrono::milliseconds(200));
-	mouse_event(MOUSEEVENTF_LEFTUP, pos_cursor.x, pos_cursor.y, 0, 0);
-
-}
-
-
-
-void fileRead() {
-	std::string people;
-	std::ifstream people_file("peoples.json", std::ifstream::binary);
-	people_file >> people;
-	cout << people << std::endl;
-}
 
 cv::Vec3f getEyeball(cv::Mat &eye, std::vector<cv::Vec3f> &circles)
 {
@@ -134,7 +110,6 @@ cv::Rect getRightmostEye(std::vector<cv::Rect> &eyes)
 			rightmostIndex = i;
 		}
 	}
-	//rightEyeTL = eyes[rightmostIndex].tl;
 	return eyes[rightmostIndex];
 }
 
@@ -206,8 +181,6 @@ void detectEyes(cv::Mat &frame, cv::CascadeClassifier &faceCascade, cv::CascadeC
 		centerEyeFinalR.y = centerIrisRight.y;
 		cv::circle(eyeRight, centerR, radius, cv::Scalar(255, 255, 255), 2);
 	}
-	cv::imshow("EyeL", eyeLeft);
-	cv::imshow("EyeR", eyeRight);
 
 }
 
@@ -255,7 +228,6 @@ double getCenterDiffY(cv::Point &centerEyeFinalR, cv::Point &centerEyeFinalL, cv
 
 int main()
 {
-	//BlockMouseMovement();
 	cv::CascadeClassifier faceCascade;
 	cv::CascadeClassifier eyeCascade;
 	faceCascade.load("haarcascade_frontalface_alt2.xml");
@@ -267,7 +239,6 @@ int main()
 	int test = 0;
 	while (true)
 	{
-		fileRead();
 		cap >> frame; // outputs the webcam image to a Mat
 					  //if (!frame.data) break;
 		detectEyes(frame, faceCascade, eyeCascade);
@@ -298,8 +269,6 @@ int main()
 		if (test != 0) {
 			int avgxdiff = getCenterDiffX(centerEyeFinalR, centerEyeFinalL, rightEyeCalibFinal, leftEyeCalibFinal);
 			int avgydiff = getCenterDiffY(centerEyeFinalR, centerEyeFinalL, rightEyeCalibFinal, leftEyeCalibFinal);
-			//std::cout << "X Rate :" << avgxdiff << std::endl;
-			//std::cout << "Y Rate :" << avgydiff << std::endl;
 			if (abs(avgxdiff) <= 10) {
 
 			}
