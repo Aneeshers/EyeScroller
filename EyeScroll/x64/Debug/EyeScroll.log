@@ -1,0 +1,11 @@
+﻿  EyeScroll.cpp
+c:\users\sangeeta\source\repos\eyescroll\eyescroll\eyescroll.cpp(14): warning C4005: 'MS_NO_COREDLL': macro redefinition
+  c:\users\sangeeta\source\repos\eyescroll\eyescroll\eyescroll.cpp(14): note: command-line arguments:  see previous definition of 'MS_NO_COREDLL'
+c:\users\sangeeta\source\repos\eyescroll\eyescroll\eyescroll.cpp(189): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\sangeeta\source\repos\eyescroll\eyescroll\eyescroll.cpp(201): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\sangeeta\source\repos\eyescroll\eyescroll\eyescroll.cpp(160): warning C4101: 'point': unreferenced local variable
+c:\users\sangeeta\source\repos\eyescroll\eyescroll\eyescroll.cpp(233): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\sangeeta\source\repos\eyescroll\eyescroll\eyescroll.cpp(314): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+c:\users\sangeeta\source\repos\eyescroll\eyescroll\eyescroll.cpp(315): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+  EyeScroll.vcxproj -> C:\Users\Sangeeta\source\repos\EyeScroll\x64\Debug\EyeScroll.exe
+  EyeScroll.vcxproj -> C:\Users\Sangeeta\source\repos\EyeScroll\x64\Debug\EyeScroll.pdb (Partial PDB)
